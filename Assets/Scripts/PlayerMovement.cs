@@ -43,14 +43,6 @@ public class PlayerMovement : MonoBehaviour {
         }
     }
 
-    private void OnCollisionExit(Collision collision)
-    {
-        if (GetDirectionOfCollision(collision) == Vector3.down)
-        {
-            canJump = false;
-        }
-    }
-
     private void OnCollisionEnter(Collision collision)
     {
         if (GetDirectionOfCollision(collision) == Vector3.down) {

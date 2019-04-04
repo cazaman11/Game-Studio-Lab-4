@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 212090423816898080}
   - component: {fileID: 65399282869111362}
   m_Layer: 0
-  m_Name: Dirt
+  m_Name: Dirt (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
