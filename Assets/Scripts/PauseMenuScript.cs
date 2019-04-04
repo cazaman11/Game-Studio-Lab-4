@@ -7,7 +7,7 @@ public class PauseMenuScript : MonoBehaviour {
     Button resumeButton;
     Button restartButton;
     Button exitButton;
-    bool paused = false;
+    bool paused = true;
     // Use this for initialization
     void Start () {
         resumeButton = GameObject.Find("ResumeButton").GetComponent<Button>();
@@ -23,7 +23,7 @@ public class PauseMenuScript : MonoBehaviour {
 
 		if(Input.GetKeyDown(KeyCode.P))
         {
-            paused = !paused;
+           // paused = !paused;
             if (paused)
             {
                 pauseGame();
@@ -33,8 +33,6 @@ public class PauseMenuScript : MonoBehaviour {
                 resumeGame();
             }
         }
-
-        Debug.Log(paused);
 	}
 
 
@@ -43,6 +41,7 @@ public class PauseMenuScript : MonoBehaviour {
         Time.timeScale = 0f;
         //prevent player input and maybe enemy stuff
         gameObject.GetComponent<Canvas>().enabled = true;
+        paused = !paused;
     }
 
     void resumeGame()
@@ -50,6 +49,7 @@ public class PauseMenuScript : MonoBehaviour {
         Time.timeScale = 1f;
         //allow player control
         gameObject.GetComponent<Canvas>().enabled = false;
+        paused = !paused;
     }
 
     void restartGame()
