@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField]
     Rigidbody rb;
     [SerializeField]
-    float groundSpeed = 7f;
+    float groundSpeed = 8f;
     [SerializeField]
     float airSpeed = 1f;
     [SerializeField]
