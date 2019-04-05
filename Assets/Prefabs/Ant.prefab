@@ -20,12 +20,12 @@ GameObject:
   m_Component:
   - component: {fileID: 4807955429740962}
   - component: {fileID: 212049459837939892}
-  - component: {fileID: 65946527196223242}
   - component: {fileID: 54904332665318362}
   - component: {fileID: 114466227751335780}
+  - component: {fileID: 135682403276893120}
   m_Layer: 0
   m_Name: Ant
-  m_TagString: Untagged
+  m_TagString: Ant
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -37,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1244976442372364}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.32, y: -0.67, z: 0}
+  m_LocalPosition: {x: -0.32, y: -0.35, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -58,18 +58,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 120
   m_CollisionDetection: 0
---- !u!65 &65946527196223242
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1244976442372364}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.32, y: 0.32, z: 0.2}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114466227751335780
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -82,12 +70,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 54904332665318362}
-  coll: {fileID: 65946527196223242}
+  coll: {fileID: 135682403276893120}
   groundSpeed: 7
-  airSpeed: 1
-  jumpForce: 3
   digSpeed: 0.001
-  canJump: 0
+--- !u!135 &135682403276893120
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1244976442372364}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.16
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!212 &212049459837939892
 SpriteRenderer:
   m_ObjectHideFlags: 1

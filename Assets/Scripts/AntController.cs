@@ -11,18 +11,14 @@ public class AntController : MonoBehaviour {
     [SerializeField]
     float groundSpeed = 7f;
     [SerializeField]
-    float airSpeed = 1f;
-    [SerializeField]
-    float jumpForce = 3f;
-    [SerializeField]
     float digSpeed = 0.001f;
-    [SerializeField]
-    bool canJump = false;
     bool canMove = false;
     bool burried = true;
     Vector3 dirOfOpening = Vector3.zero;
     Vector3 startPos;
     Vector3 endPos;
+    bool goLeft = true;
+    bool isChasing = false;
 
     // Use this for initialization
     void Start () {
@@ -42,10 +38,68 @@ public class AntController : MonoBehaviour {
                 canMove = true;
             }
         }
-        else if (burried && canMove) {
+        else if (burried && canMove)
+        {
             DigToOpening();
         }
+        else if (!burried && canMove) {
+            Move();
+        }
 	}
+
+    private void Move()
+    {
+        if (!isChasing) {
+            if (goLeft)
+            {
+                rb.AddForce(Vector3.left * groundSpeed);
+            }
+            else {
+                rb.AddForce(Vector3.right * groundSpeed);
+            }
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (GetDirectionOfCollision(collision) == Vector3.left) {
+            goLeft = false;
+        }
+        if (GetDirectionOfCollision(collision) == Vector3.right) {
+            goLeft = true;
+        }
+    }
+
+    private Vector3 GetDirectionOfCollision(Collision collision)
+    {
+        Vector3 direction = (collision.transform.position - transform.position);
+        Ray ray = new Ray(transform.position, direction);
+        RaycastHit raycast;
+        Physics.Raycast(ray, out raycast);
+
+        if (raycast.collider)
+        {
+            Vector3 normal = raycast.normal;
+            normal = raycast.transform.TransformDirection(normal);
+            if (normal == raycast.transform.up)
+            {
+                return Vector3.down;
+            }
+            if (normal == -raycast.transform.up)
+            {
+                return Vector3.up;
+            }
+            if (normal == raycast.transform.right)
+            {
+                return Vector3.left;
+            }
+            if (normal == -raycast.transform.right)
+            {
+                return Vector3.right;
+            }
+        }
+        return Vector3.zero;
+    }
 
     void DigToOpening() {
         if (transform.position != endPos)
@@ -57,14 +111,11 @@ public class AntController : MonoBehaviour {
         }
     }
 
-    
-
     void Unbury() {
         rb.isKinematic = false;
         coll.enabled = true;
         burried = false;
         canMove = true;
-        canJump = true;
     }
 
     void Bury() {
@@ -72,7 +123,6 @@ public class AntController : MonoBehaviour {
         coll.enabled = false;
         burried = true;
         canMove = false;
-        canJump = false;
     }
 
     bool IsOpen() {
@@ -128,6 +178,6 @@ public class AntController : MonoBehaviour {
     void UpdatePos(Vector3 dir) {
         startPos = transform.position;
         dirOfOpening = dir;
-        endPos = startPos + (dir * 0.32f);
+        endPos = startPos + (dir * 0.33f);
     }
 }
