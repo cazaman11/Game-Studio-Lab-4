@@ -19,6 +19,7 @@ public class AntController : MonoBehaviour {
     Vector3 endPos;
     bool goLeft = true;
     bool isChasing = false;
+    GameObject chaseTarget;
 
     // Use this for initialization
     void Start () {
@@ -49,30 +50,71 @@ public class AntController : MonoBehaviour {
 
     private void Move()
     {
-        if (!isChasing) {
+        if (!isChasing)
+        {
             if (goLeft)
             {
                 rb.AddForce(Vector3.left * groundSpeed);
             }
-            else {
+            else
+            {
                 rb.AddForce(Vector3.right * groundSpeed);
+            }
+        }
+        else {
+            Vector3 dir = GetDirectionOfCollision(chaseTarget);
+            if (dir.x > 0 && dir.x != 0)
+            {
+                rb.AddForce(Vector3.right * groundSpeed);
+            }
+            else if (dir.x < 0 && dir.x != 0)
+            {
+                rb.AddForce(Vector3.left * groundSpeed);
+            }
+            else {
+                rb.useGravity = false;
+                if (dir.y > 0)
+                {
+                    rb.AddForce(Vector3.up * groundSpeed);
+                }
+                else {
+                    rb.useGravity = true;
+                }
             }
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (GetDirectionOfCollision(collision) == Vector3.left) {
+        if (GetDirectionOfCollision(collision.gameObject) == Vector3.left) {
             goLeft = false;
         }
-        if (GetDirectionOfCollision(collision) == Vector3.right) {
+        if (GetDirectionOfCollision(collision.gameObject) == Vector3.right) {
             goLeft = true;
         }
     }
 
-    private Vector3 GetDirectionOfCollision(Collision collision)
+    private void OnTriggerStay(Collider other)
     {
-        Vector3 direction = (collision.transform.position - transform.position);
+        if (!burried && canMove && !isChasing) {
+            if (other.tag == "Player") {
+                isChasing = true;
+                chaseTarget = other.gameObject;
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Player") {
+            isChasing = false;
+            chaseTarget = null;
+        }
+    }
+
+    private Vector3 GetDirectionOfCollision(GameObject other)
+    {
+        Vector3 direction = (other.transform.position - transform.position);
         Ray ray = new Ray(transform.position, direction);
         RaycastHit raycast;
         Physics.Raycast(ray, out raycast);
@@ -97,6 +139,7 @@ public class AntController : MonoBehaviour {
             {
                 return Vector3.right;
             }
+            return -normal;
         }
         return Vector3.zero;
     }
