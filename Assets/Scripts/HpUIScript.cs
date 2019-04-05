@@ -8,6 +8,7 @@ public class HpUIScript : MonoBehaviour {
     GameObject thirdHeart;
     GameObject secondHeart;
     GameObject firstHeart;
+    [SerializeField]
     int health = 3;
     // Use this for initialization
     void Start () {
@@ -22,12 +23,15 @@ public class HpUIScript : MonoBehaviour {
         //get hp from player script
         if (health == 2 || Input.GetKeyDown(KeyCode.A))
         {
-            thirdHeart.SetActive(false);            
+            thirdHeart.SetActive(false);
+            secondHeart.SetActive(true);
+            firstHeart.SetActive(true);
         }
         if(health == 1 || Input.GetKeyDown(KeyCode.S))
         {
             thirdHeart.SetActive(false);
             secondHeart.SetActive(false);
+            firstHeart.SetActive(true);
         }
         if(health == 0 || Input.GetKeyDown(KeyCode.D))
         {

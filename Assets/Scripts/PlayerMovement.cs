@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField]
     Rigidbody rb;
     [SerializeField]
-    float groundSpeed = 7f;
+    float groundSpeed = 8f;
     [SerializeField]
     float airSpeed = 1f;
     [SerializeField]
@@ -40,14 +40,6 @@ public class PlayerMovement : MonoBehaviour {
                 rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
                 canJump = false;
             }
-        }
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (GetDirectionOfCollision(collision) == Vector3.down)
-        {
-            canJump = false;
         }
     }
 
