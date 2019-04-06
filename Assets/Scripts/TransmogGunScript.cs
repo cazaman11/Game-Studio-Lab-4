@@ -6,13 +6,13 @@ using UnityEngine.Tilemaps;
 public class TransmogGunScript : MonoBehaviour {
 
     private Vector3 mousePos;
-    public Tilemap tilemap;
+    /*public Tilemap tilemap;
     private Vector3Int tilePos;
     private TileBase selectedTile;
     private Tile tile;
     private Sprite selectedSprite;
     private TileData tileData;
-    private ITilemap iTileMap;
+    private ITilemap iTileMap;*/
 
 	// Use this for initialization
 	void Start () {
@@ -34,7 +34,6 @@ public class TransmogGunScript : MonoBehaviour {
         {
             mousePos = Input.mousePosition;
             Debug.Log("mousePos" + mousePos);
-            getTile();
         }
     }
 
@@ -44,7 +43,6 @@ public class TransmogGunScript : MonoBehaviour {
         {
             mousePos = Input.mousePosition;
             Debug.Log("mousePos" + mousePos);
-            getTile();
         }
     }
 
@@ -54,11 +52,10 @@ public class TransmogGunScript : MonoBehaviour {
         {
             mousePos = Input.mousePosition;
             Debug.Log("mousePos" + mousePos);
-            getTile();
         }
     }
 
-    void getTile()
+    /*void getTile()
     {
         tilePos = Vector3Int.FloorToInt(mousePos);
         Debug.Log("tilePos = " + tilePos);
@@ -69,7 +66,7 @@ public class TransmogGunScript : MonoBehaviour {
         
         //selectedSprite = tilemap.GetSprite(tilePos);
         Debug.Log("selectedSprite = " + selectedSprite);
-    }
+    }*/
 
     
 
