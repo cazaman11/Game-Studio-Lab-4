@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Tilemaps;
 
 public class TransmogGunScript : MonoBehaviour {
@@ -13,7 +14,8 @@ public class TransmogGunScript : MonoBehaviour {
     private Sprite selectedSprite;
     private TileData tileData;
     private ITilemap iTileMap;
-
+    [SerializeField]
+    bool clickSwapped = false;
 	// Use this for initialization
 	void Start () {
 		
@@ -21,11 +23,11 @@ public class TransmogGunScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+        swapClicks();
         soil();
-        rock();
-        quicksand();
-
+        //rock();
+        //quicksand();
+        clickDetect();
 	}
 
     void soil()
@@ -40,22 +42,24 @@ public class TransmogGunScript : MonoBehaviour {
 
     void rock()
     {
-        if (Input.GetMouseButtonUp(0))
-        {
+       // if (Input.GetMouseButtonUp(0))
+       // {
             mousePos = Input.mousePosition;
             Debug.Log("mousePos" + mousePos);
-            getTile();
-        }
+           // getTile();
+            Debug.Log("Rock click");
+       // }
     }
 
     void quicksand()
     {
-        if (Input.GetMouseButtonUp(1))
-        {
+     //   if (Input.GetMouseButtonUp(1))
+      //  {
             mousePos = Input.mousePosition;
             Debug.Log("mousePos" + mousePos);
-            getTile();
-        }
+          //  getTile();
+            Debug.Log("Quicksand click");
+       // }
     }
 
     void getTile()
@@ -71,7 +75,31 @@ public class TransmogGunScript : MonoBehaviour {
         Debug.Log("selectedSprite = " + selectedSprite);
     }
 
-    
+    void clickDetect()
+    {
+        if (Input.GetMouseButtonUp(0) && clickSwapped == false)
+        {
+            rock();
+        }
+        else if (Input.GetMouseButtonUp(0) && clickSwapped == true)
+        {
+            quicksand();
+        }
 
+        if (Input.GetMouseButtonUp(1) && clickSwapped == false)
+        {
+            quicksand();
+        }
+        else if (Input.GetMouseButtonUp(1) && clickSwapped == true)
+        {
+            rock();
+        }
+    }
+
+    public void swapClicks()
+    {
+        //clickSwapped = !clickSwapped;
+        clickSwapped = GameObject.Find("SwapClicksToggle").GetComponent<Toggle>().isOn;
+    }
     
 }
