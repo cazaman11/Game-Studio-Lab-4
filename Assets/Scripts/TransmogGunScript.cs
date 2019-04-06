@@ -7,17 +7,18 @@ using UnityEngine.Tilemaps;
 public class TransmogGunScript : MonoBehaviour {
 
     private Vector3 mousePos;
-    public Tilemap tilemap;
+    /*public Tilemap tilemap;
     private Vector3Int tilePos;
     private TileBase selectedTile;
     private Tile tile;
     private Sprite selectedSprite;
     private TileData tileData;
     private ITilemap iTileMap;
+    private ITilemap iTileMap;*/
     [SerializeField]
     bool clickSwapped = false;
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 		
 	}
 	
@@ -36,33 +37,24 @@ public class TransmogGunScript : MonoBehaviour {
         {
             mousePos = Input.mousePosition;
             Debug.Log("mousePos" + mousePos);
-            getTile();
         }
     }
 
     void rock()
     {
-       // if (Input.GetMouseButtonUp(0))
-       // {
-            mousePos = Input.mousePosition;
-            Debug.Log("mousePos" + mousePos);
-           // getTile();
-            Debug.Log("Rock click");
-       // }
+        mousePos = Input.mousePosition;
+        Debug.Log("mousePos" + mousePos);
+        Debug.Log("Rock click");
     }
 
     void quicksand()
     {
-     //   if (Input.GetMouseButtonUp(1))
-      //  {
             mousePos = Input.mousePosition;
             Debug.Log("mousePos" + mousePos);
-          //  getTile();
-            Debug.Log("Quicksand click");
-       // }
+            Debug.Log("Quicksand click");      
     }
 
-    void getTile()
+    /*void getTile()
     {
         tilePos = Vector3Int.FloorToInt(mousePos);
         Debug.Log("tilePos = " + tilePos);
@@ -73,7 +65,7 @@ public class TransmogGunScript : MonoBehaviour {
         
         //selectedSprite = tilemap.GetSprite(tilePos);
         Debug.Log("selectedSprite = " + selectedSprite);
-    }
+    }*/
 
     void clickDetect()
     {

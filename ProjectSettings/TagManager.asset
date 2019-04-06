@@ -8,6 +8,7 @@ TagManager:
   - Quicksand
   - Rock
   - Ant
+  - Background
   layers:
   - Default
   - TransparentFX
