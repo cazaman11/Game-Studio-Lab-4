@@ -11,7 +11,16 @@ public class AntController : MonoBehaviour {
     [SerializeField]
     float groundSpeed = 7f;
     [SerializeField]
+    float upSpeed = 2f;
+    [SerializeField]
+    float airSpeed = 1f;
+    bool canJump = false;
+    [SerializeField]
+    float currSpeed = 0;
+    [SerializeField]
     float digSpeed = 0.001f;
+    [SerializeField]
+    float tileSize = 0.32f;
     bool canMove = false;
     bool burried = true;
     Vector3 dirOfOpening = Vector3.zero;
@@ -20,6 +29,11 @@ public class AntController : MonoBehaviour {
     bool goLeft = true;
     bool isChasing = false;
     GameObject chaseTarget;
+
+    Vector3 lastPos;
+    float t = 0;
+    float timeTillStuck = 1.5f;
+    bool isStuck = false;
 
     // Use this for initialization
     void Start () {
@@ -43,10 +57,24 @@ public class AntController : MonoBehaviour {
         {
             DigToOpening();
         }
-        else if (!burried && canMove) {
-            Move();
+        else if (!burried && canMove)
+        {
+            if (!isStuck)
+            {
+                Move();
+            }
+            else {
+                UnStuck();
+            }
         }
+        
 	}
+
+    void UnStuck() {
+        transform.position += Vector3.up * 0.1f;
+        isStuck = false;
+        t = 0;
+    }
 
     private void Move()
     {
@@ -54,43 +82,163 @@ public class AntController : MonoBehaviour {
         {
             if (goLeft)
             {
-                rb.AddForce(Vector3.left * groundSpeed);
+                MoveLeft();
             }
             else
             {
-                rb.AddForce(Vector3.right * groundSpeed);
+                MoveRight();
             }
         }
         else {
             Vector3 dir = GetDirectionOfCollision(chaseTarget);
-            if (dir.x > 0 && dir.x != 0)
+            if (dir.x > 0)
             {
-                rb.AddForce(Vector3.right * groundSpeed);
+                if (IsOpeningRight())
+                {
+                    MoveRight();
+                }
+                else
+                {
+                    if (IsOpeningAbove())
+                    {
+                        MoveUp();
+                    }
+                    else
+                    {
+                        MoveLeft();
+                    }
+                }
             }
-            else if (dir.x < 0 && dir.x != 0)
+            else if (dir.x < 0)
             {
-                rb.AddForce(Vector3.left * groundSpeed);
+                if (IsOpeningLeft())
+                {
+                    MoveLeft();
+                }
+                else
+                {
+                    if (IsOpeningAbove())
+                    {
+                        MoveUp();
+                    }
+                    else
+                    {
+                        MoveRight();
+                    }
+                }
             }
             else {
-                rb.useGravity = false;
                 if (dir.y > 0)
                 {
-                    rb.AddForce(Vector3.up * groundSpeed);
+                    if (IsOpeningAbove())
+                    {
+                        MoveUp();
+                    }
+                    else
+                    {
+                        if (dir.x < 0)
+                        {
+                            if (IsOpeningLeft())
+                            {
+                                MoveLeft();
+                            }
+                            
+                        }
+                        else if (dir.x > 0)
+                        {
+                            if (IsOpeningRight()) {
+                                MoveRight();
+                            } 
+                        }
+                    }
                 }
                 else {
-                    rb.useGravity = true;
+                    if (dir.x < 0)
+                    {
+                        if (IsOpeningLeft())
+                        {
+                            MoveLeft();
+                        }
+
+                    }
+                    else if (dir.x > 0)
+                    {
+                        if (IsOpeningRight())
+                        {
+                            MoveRight();
+                        }
+                    }
                 }
             }
         }
     }
 
+    void MoveLeft() {
+        rb.AddForce(Vector3.left * currSpeed);
+        if (transform.position == lastPos)
+        {
+            MaybeStuck();
+        }
+        else {
+            lastPos = transform.position;
+        }
+    }
+
+    void MoveRight() {
+        rb.AddForce(Vector3.right * currSpeed);
+        if (transform.position == lastPos)
+        {
+            MaybeStuck();
+        }
+        else
+        {
+            lastPos = transform.position;
+        }
+    }
+
+    void MoveUp() {
+        if (canJump)
+        {
+            rb.AddForce(Vector3.up * upSpeed, ForceMode.Impulse);
+            canJump = false;
+            currSpeed = airSpeed;
+            if (transform.position == lastPos)
+            {
+                MaybeStuck();
+            }
+            else
+            {
+                lastPos = transform.position;
+            }
+        }
+    }
+
+    void MaybeStuck() {
+        if (t < timeTillStuck)
+        {
+            t += Time.deltaTime / timeTillStuck;
+        }
+        else {
+            isStuck = true;
+        }
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
-        if (GetDirectionOfCollision(collision.gameObject) == Vector3.left) {
-            goLeft = false;
+        if (!isChasing)
+        {
+            if (GetDirectionOfCollision(collision.gameObject) == Vector3.left)
+            {
+                goLeft = false;
+            }
+            if (GetDirectionOfCollision(collision.gameObject) == Vector3.right)
+            {
+                goLeft = true;
+            }
         }
-        if (GetDirectionOfCollision(collision.gameObject) == Vector3.right) {
-            goLeft = true;
+        if (GetDirectionOfCollision(collision.gameObject).y < 0 && !canJump) {
+            canJump = true;
+            currSpeed = groundSpeed;
         }
     }
 
@@ -159,6 +307,8 @@ public class AntController : MonoBehaviour {
         coll.enabled = true;
         burried = false;
         canMove = true;
+        canJump = true;
+        currSpeed = groundSpeed;
     }
 
     void Bury() {
@@ -166,6 +316,8 @@ public class AntController : MonoBehaviour {
         coll.enabled = false;
         burried = true;
         canMove = false;
+        canJump = false;
+        currSpeed = 0;
     }
 
     bool IsOpen() {
@@ -176,7 +328,7 @@ public class AntController : MonoBehaviour {
         Ray ray = new Ray(transform.position, Vector3.up);
         RaycastHit hit;
         Physics.Raycast(ray, out hit);
-        if (hit.distance > 0.32f || hit.transform == null) {
+        if (hit.distance > tileSize || hit.transform == null) {
             UpdatePos(Vector3.up);
             return true;
         }
@@ -187,7 +339,7 @@ public class AntController : MonoBehaviour {
         Ray ray = new Ray(transform.position, Vector3.down);
         RaycastHit hit;
         Physics.Raycast(ray, out hit);
-        if (hit.distance > 0.32f || hit.transform == null)
+        if (hit.distance > tileSize || hit.transform == null)
         {
             UpdatePos(Vector3.down);
             return true;
@@ -199,7 +351,7 @@ public class AntController : MonoBehaviour {
         Ray ray = new Ray(transform.position, Vector3.right);
         RaycastHit hit;
         Physics.Raycast(ray, out hit);
-        if (hit.distance > 0.32f || hit.transform == null)
+        if (hit.distance > tileSize || hit.transform == null)
         {
             UpdatePos(Vector3.right);
             return true;
@@ -211,7 +363,7 @@ public class AntController : MonoBehaviour {
         Ray ray = new Ray(transform.position, Vector3.left);
         RaycastHit hit;
         Physics.Raycast(ray, out hit);
-        if (hit.distance > 0.32f || hit.transform == null)
+        if (hit.distance > tileSize || hit.transform == null)
         {
             UpdatePos(Vector3.left);
             return true;
@@ -221,6 +373,6 @@ public class AntController : MonoBehaviour {
     void UpdatePos(Vector3 dir) {
         startPos = transform.position;
         dirOfOpening = dir;
-        endPos = startPos + (dir * 0.33f);
+        endPos = startPos + (dir * (tileSize+0.01f));
     }
 }
