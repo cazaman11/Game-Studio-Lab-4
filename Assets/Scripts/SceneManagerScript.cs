@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class SceneManagerScript : MonoBehaviour {
 
     Scene currentScene;
-
+    public bool seenBefore = false;
 	// Use this for initialization
 	void Start () {
         SceneManager.LoadScene("SampleScene");
@@ -29,7 +29,13 @@ public class SceneManagerScript : MonoBehaviour {
         {
             SceneManager.LoadScene("GameScene");
         }
-	}
+
+        if(Input.GetKeyDown(KeyCode.T))
+        {
+            toSampleScene();
+        }
+
+    }
 
     public void restartGame()
     {
@@ -40,5 +46,10 @@ public class SceneManagerScript : MonoBehaviour {
     public void mainMenu()
     {
         SceneManager.LoadScene("MainMenuScene");
+    }
+
+    public void toSampleScene()
+    {
+        SceneManager.LoadScene("SampleScene");
     }
 }
