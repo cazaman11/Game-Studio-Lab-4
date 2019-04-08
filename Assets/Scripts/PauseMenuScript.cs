@@ -24,7 +24,7 @@ public class PauseMenuScript : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
-		if(Input.GetKeyDown(KeyCode.P))
+		if(Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
         {
            // paused = !paused;
             if (paused)
@@ -45,7 +45,8 @@ public class PauseMenuScript : MonoBehaviour {
         //prevent player input and maybe enemy stuff
         gameObject.GetComponent<Canvas>().enabled = true;      
         persistCanvas.enabled = true;
-        paused = !paused;
+        AudioListener.pause = paused;
+        paused = !paused;      
     }
 
     void resumeGame()
@@ -54,7 +55,8 @@ public class PauseMenuScript : MonoBehaviour {
         //allow player control
         gameObject.GetComponent<Canvas>().enabled = false;
         persistCanvas.enabled = false;
-        paused = !paused;
+        AudioListener.pause = paused;
+        paused = !paused;      
     }
 
     void restartGame()

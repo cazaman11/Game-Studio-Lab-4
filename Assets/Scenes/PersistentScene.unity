@@ -382,7 +382,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!224 &1368034092
 RectTransform:
   m_ObjectHideFlags: 0
@@ -431,6 +431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eef65358b85f3354e83a313f3daabfe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  seenBefore: 0
 --- !u!4 &1388612798
 Transform:
   m_ObjectHideFlags: 0

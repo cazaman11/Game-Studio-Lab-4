@@ -22,7 +22,8 @@ public class MuteScript : MonoBehaviour {
     void toggleMute()
     {
         paused = !paused;
-        AudioListener.pause = paused;
+        //AudioListener.pause = paused;
+        AudioListener.volume = !paused ? 1:0;
         Debug.Log(paused);
         if (paused)
         {
