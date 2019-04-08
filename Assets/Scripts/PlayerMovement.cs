@@ -9,36 +9,42 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField]
     float groundSpeed = 8f;
     [SerializeField]
-    float airSpeed = 1f;
+    float airSpeed = 2f;
     [SerializeField]
     float jumpForce = 3f;
     [SerializeField]
     bool canJump = true;
+    [SerializeField]
+    int health = 3;
+    public bool canMove = true;
 
 	// Use this for initialization
 	void Awake () {
-        if (!rb) {
-            rb = GetComponent<Rigidbody>();
-        }
+        Restart();
 	}
 
     void Update()
     {
-        if (Input.GetAxis("Horizontal") != 0) {
+        if (canMove) {
+            if (Input.GetAxis("Horizontal") != 0)
+            {
+                if (canJump)
+                {
+                    rb.AddForce(Vector3.right * Input.GetAxis("Horizontal") * groundSpeed);
+                }
+                else
+                {
+                    rb.AddForce(Vector3.right * Input.GetAxis("Horizontal") * airSpeed);
+                }
+            }
+
             if (canJump)
             {
-                rb.AddForce(Vector3.right * Input.GetAxis("Horizontal") * groundSpeed);
-            }
-            else {
-                rb.AddForce(Vector3.right * Input.GetAxis("Horizontal") * airSpeed);
-            }
-        }
-
-        if (canJump) {
-            if (Input.GetAxis("Vertical") > 0)
-            {
-                rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-                canJump = false;
+                if (Input.GetAxis("Vertical") > 0)
+                {
+                    rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+                    canJump = false;
+                }
             }
         }
     }
@@ -80,5 +86,31 @@ public class PlayerMovement : MonoBehaviour {
             }
         }
         return Vector3.zero;
+    }
+
+    public void Damage() {
+        health--;
+        if (health == 0) {
+            Die();
+        }
+    }
+
+    void Die() {
+        Time.timeScale = 0;
+        canMove = false;
+    }
+
+    public void Restart()
+    {
+        if (!rb)
+        {
+            rb = GetComponent<Rigidbody>();
+        }
+        groundSpeed = 8;
+        jumpForce = 3;
+        airSpeed = 2;
+        canJump = true;
+        health = 3;
+        canMove = true;
     }
 }

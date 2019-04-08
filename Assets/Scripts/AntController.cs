@@ -9,11 +9,11 @@ public class AntController : MonoBehaviour {
     [SerializeField]
     Collider coll;
     [SerializeField]
-    float groundSpeed = 7f;
+    float groundSpeed = 8f;
     [SerializeField]
-    float upSpeed = 2f;
+    float upSpeed = 3.5f;
     [SerializeField]
-    float airSpeed = 1f;
+    float airSpeed = 2f;
     bool canJump = false;
     [SerializeField]
     float currSpeed = 0;
@@ -29,20 +29,41 @@ public class AntController : MonoBehaviour {
     bool goLeft = true;
     bool isChasing = false;
     GameObject chaseTarget;
-
-    Vector3 lastPos;
-    float t = 0;
-    float timeTillStuck = 1.5f;
-    bool isStuck = false;
+    [SerializeField]
+    int health = 3;
 
     // Use this for initialization
     void Start () {
-        if (!rb) {
+        Restart();
+    }
+
+    public void Restart() {
+        if (!rb)
+        {
             rb = GetComponent<Rigidbody>();
         }
-        Bury();
+        if (!coll)
+        {
+            coll = GetComponent<Collider>();
+        }
         startPos = transform.position;
-	}
+        groundSpeed = 8f;
+        upSpeed = 3.5f;
+        airSpeed = 2f;
+        canJump = false;
+        currSpeed = 0;
+        digSpeed = 0.001f;
+        tileSize = 0.32f;
+        canMove = false;
+        burried = true;
+        dirOfOpening = Vector3.zero;
+        endPos = startPos;
+        goLeft = true;
+        isChasing = false;
+        chaseTarget = null;
+        health = 3;
+        Bury();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -59,22 +80,10 @@ public class AntController : MonoBehaviour {
         }
         else if (!burried && canMove)
         {
-            if (!isStuck)
-            {
-                Move();
-            }
-            else {
-                UnStuck();
-            }
+            Move();
         }
         
 	}
-
-    void UnStuck() {
-        transform.position += Vector3.up * 0.1f;
-        isStuck = false;
-        t = 0;
-    }
 
     private void Move()
     {
@@ -175,25 +184,10 @@ public class AntController : MonoBehaviour {
 
     void MoveLeft() {
         rb.AddForce(Vector3.left * currSpeed);
-        if (transform.position == lastPos)
-        {
-            MaybeStuck();
-        }
-        else {
-            lastPos = transform.position;
-        }
     }
 
     void MoveRight() {
         rb.AddForce(Vector3.right * currSpeed);
-        if (transform.position == lastPos)
-        {
-            MaybeStuck();
-        }
-        else
-        {
-            lastPos = transform.position;
-        }
     }
 
     void MoveUp() {
@@ -202,24 +196,6 @@ public class AntController : MonoBehaviour {
             rb.AddForce(Vector3.up * upSpeed, ForceMode.Impulse);
             canJump = false;
             currSpeed = airSpeed;
-            if (transform.position == lastPos)
-            {
-                MaybeStuck();
-            }
-            else
-            {
-                lastPos = transform.position;
-            }
-        }
-    }
-
-    void MaybeStuck() {
-        if (t < timeTillStuck)
-        {
-            t += Time.deltaTime / timeTillStuck;
-        }
-        else {
-            isStuck = true;
         }
     }
 
@@ -240,6 +216,28 @@ public class AntController : MonoBehaviour {
             canJump = true;
             currSpeed = groundSpeed;
         }
+        if (collision.gameObject.tag == "Player") {
+            Attack(collision.gameObject);
+        }
+    }
+
+    void Attack(GameObject player) {
+        if (player.GetComponent<PlayerMovement>()) {
+            player.GetComponent<PlayerMovement>().Damage();
+        }
+        Vector3 dir = GetDirectionOfCollision(player);
+        rb.AddForce(dir * 2, ForceMode.Impulse);
+    }
+
+    public void Damage() {
+        health--;
+        if (health == 0) {
+            Die();
+        }
+    }
+
+    public void Die() {
+        Destroy(gameObject);
     }
 
     private void OnTriggerStay(Collider other)
