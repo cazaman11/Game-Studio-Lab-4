@@ -6,7 +6,10 @@ using UnityEngine.Tilemaps;
 
 public class TransmogGunScript : MonoBehaviour {
 
-    private Vector3 mousePos;
+    private Vector2 mousePos;
+    public GameObject rockPrefab;
+    public GameObject quicksandPrefab;
+    public GameObject soilPrefab;
     /*public Tilemap tilemap;
     private Vector3Int tilePos;
     private TileBase selectedTile;
@@ -24,10 +27,11 @@ public class TransmogGunScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+        
+
         swapClicks();
-        soil();
-        //rock();
-        //quicksand();
+        soil();       
         clickDetect();
 	}
 
@@ -35,37 +39,61 @@ public class TransmogGunScript : MonoBehaviour {
     {
         if (Input.GetKeyUp(KeyCode.E))
         {
-            mousePos = Input.mousePosition;
-            Debug.Log("mousePos" + mousePos);
+            mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
+
+            RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
+
+            if (hit.collider != null)
+            {
+                Vector2 tempPos = hit.collider.gameObject.transform.position;
+
+                if (hit.collider.gameObject.tag == "Background")
+                {
+                    Destroy(hit.collider.gameObject);
+                    Instantiate(soilPrefab, tempPos, transform.rotation);
+                }
+            }
         }
     }
 
     void rock()
-    {
-        mousePos = Input.mousePosition;
-        Debug.Log("mousePos" + mousePos);
-        Debug.Log("Rock click");
+    {        
+            mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
+
+            RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
+
+            if (hit.collider != null)
+            {
+                Vector2 tempPos = hit.collider.gameObject.transform.position;
+
+                if (hit.collider.gameObject.tag == "Background")
+                {
+                    Destroy(hit.collider.gameObject);
+                    Instantiate(rockPrefab, tempPos, transform.rotation);
+                }
+            }        
     }
 
     void quicksand()
     {
-            mousePos = Input.mousePosition;
-            Debug.Log("mousePos" + mousePos);
-            Debug.Log("Quicksand click");      
+        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
+
+        RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
+
+        if (hit.collider != null)
+        {
+            Vector2 tempPos = hit.collider.gameObject.transform.position;
+
+            if (hit.collider.gameObject.tag == "Background")
+            {
+                Destroy(hit.collider.gameObject);
+                Instantiate(quicksandPrefab, tempPos, transform.rotation);
+            }
+        }
     }
-
-    /*void getTile()
-    {
-        tilePos = Vector3Int.FloorToInt(mousePos);
-        Debug.Log("tilePos = " + tilePos);
-        selectedTile = tilemap.GetTile(tilePos);
-        selectedTile.GetTileData(tilePos, iTileMap, ref tileData);
-        selectedSprite = tileData.sprite;
-
-        
-        //selectedSprite = tilemap.GetSprite(tilePos);
-        Debug.Log("selectedSprite = " + selectedSprite);
-    }*/
 
     void clickDetect()
     {
@@ -91,7 +119,7 @@ public class TransmogGunScript : MonoBehaviour {
     public void swapClicks()
     {
         //clickSwapped = !clickSwapped;
-        clickSwapped = GameObject.Find("SwapClicksToggle").GetComponent<Toggle>().isOn;
+        //clickSwapped = GameObject.Find("SwapClicksToggle").GetComponent<Toggle>().isOn;
     }
     
 }
