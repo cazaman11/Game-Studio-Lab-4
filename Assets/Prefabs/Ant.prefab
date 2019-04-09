@@ -39,7 +39,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1043225865234690}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.321, y: -0.033, z: 0.018331999}
+  m_LocalPosition: {x: 0.32, y: -0.35, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -168,12 +168,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 54615269120765908}
   coll: {fileID: 135856412863194398}
-  groundSpeed: 7
-  upSpeed: 2
-  airSpeed: 1
+  groundSpeed: 8
+  upSpeed: 3.5
+  airSpeed: 2
   currSpeed: 0
   digSpeed: 0.001
   tileSize: 0.32
+  health: 3
 --- !u!135 &135523808169151638
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -232,7 +233,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 9499426737c8c9546a2b2e1ce0aab82c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

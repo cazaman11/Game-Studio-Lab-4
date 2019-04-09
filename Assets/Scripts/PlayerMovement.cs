@@ -18,33 +18,68 @@ public class PlayerMovement : MonoBehaviour {
     int health = 3;
     public bool canMove = true;
 
-	// Use this for initialization
-	void Awake () {
+    bool isStuck = false;
+    bool canStick = false;
+    float stuckTime = 5;
+    float stickInvTime = 5;
+    float t = 0;
+    float it = 0;
+
+    // Use this for initialization
+    void Awake () {
         Restart();
 	}
 
     void Update()
     {
-        if (canMove) {
-            if (Input.GetAxis("Horizontal") != 0)
+        if (!isStuck) {
+            if (canMove)
             {
+                if (Input.GetAxis("Horizontal") != 0)
+                {
+                    if (canJump)
+                    {
+                        rb.AddForce(Vector3.right * Input.GetAxis("Horizontal") * groundSpeed);
+                    }
+                    else
+                    {
+                        rb.AddForce(Vector3.right * Input.GetAxis("Horizontal") * airSpeed);
+                    }
+                }
+
                 if (canJump)
                 {
-                    rb.AddForce(Vector3.right * Input.GetAxis("Horizontal") * groundSpeed);
-                }
-                else
-                {
-                    rb.AddForce(Vector3.right * Input.GetAxis("Horizontal") * airSpeed);
+                    if (Input.GetAxis("Vertical") > 0)
+                    {
+                        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+                        canJump = false;
+                    }
                 }
             }
-
-            if (canJump)
+        }
+        else
+        {
+            if (t < stuckTime)
             {
-                if (Input.GetAxis("Vertical") > 0)
-                {
-                    rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-                    canJump = false;
-                }
+                t += Time.deltaTime / stuckTime;
+            }
+            else
+            {
+                isStuck = false;
+                canStick = false;
+                t = 0;
+            }
+        }
+        if (!canStick)
+        {
+            if (it < stickInvTime)
+            {
+                it += Time.deltaTime / stickInvTime;
+            }
+            else
+            {
+                canStick = true;
+                it = 0;
             }
         }
     }
@@ -112,5 +147,17 @@ public class PlayerMovement : MonoBehaviour {
         canJump = true;
         health = 3;
         canMove = true;
+        isStuck = false;
+        canStick = false;
+        stuckTime = 5;
+        stickInvTime = 5;
+        t = 0;
+        it = 0;
+    }
+    public void Stuck() {
+        if (canStick)
+        {
+            isStuck = true;
+        }
     }
 }

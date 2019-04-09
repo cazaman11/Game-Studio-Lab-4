@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 114198454275275684}
   - component: {fileID: 54806891102683522}
   - component: {fileID: 81211606865520174}
+  - component: {fileID: 114509354096850432}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -38,7 +39,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1851723762061582}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.74856764, y: 0.53860426, z: 0.018331999}
+  m_LocalPosition: {x: 3.161, y: 0.53860426, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -79,9 +80,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 54806891102683522}
   groundSpeed: 8
-  airSpeed: 1
+  airSpeed: 2
   jumpForce: 3
   canJump: 1
+  health: 3
+  canMove: 1
+--- !u!114 &114509354096850432
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1851723762061582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40e26c48c02f9a64ebcf7833b8d5997c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  quicksand: {fileID: 1411870291024852, guid: 36e619e57aeb30c42a58427ede14efa5, type: 2}
+  rock: {fileID: 1779447917201458, guid: 07807a347a8a84c4298e248e414717e3, type: 2}
+  background: {fileID: 1527308587965044, guid: c414950e5209c37438c4ef4c47557e00, type: 2}
 --- !u!136 &136857384986570046
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -129,7 +146,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: c1b42a51b6f359441841d80861964759, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

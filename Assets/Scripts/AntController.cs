@@ -18,7 +18,7 @@ public class AntController : MonoBehaviour {
     [SerializeField]
     float currSpeed = 0;
     [SerializeField]
-    float digSpeed = 0.001f;
+    float digSpeed = 0.01f;
     [SerializeField]
     float tileSize = 0.32f;
     bool canMove = false;
@@ -31,6 +31,13 @@ public class AntController : MonoBehaviour {
     GameObject chaseTarget;
     [SerializeField]
     int health = 3;
+
+    bool isStuck = false;
+    bool canStick = false;
+    float stuckTime = 5;
+    float stickInvTime = 5;
+    float t = 0;
+    float it = 0;
 
     // Use this for initialization
     void Start () {
@@ -52,7 +59,7 @@ public class AntController : MonoBehaviour {
         airSpeed = 2f;
         canJump = false;
         currSpeed = 0;
-        digSpeed = 0.001f;
+        digSpeed = 0.01f;
         tileSize = 0.32f;
         canMove = false;
         burried = true;
@@ -62,25 +69,55 @@ public class AntController : MonoBehaviour {
         isChasing = false;
         chaseTarget = null;
         health = 3;
+        isStuck = false;
+        canStick = false;
+        stuckTime = 5;
+        stickInvTime = 5;
+        t = 0;
+        it = 0;
         Bury();
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if (burried && !canMove)
+        if (!isStuck)
         {
-            if (IsOpen())
+            if (burried && !canMove)
             {
-                canMove = true;
+                if (IsOpen())
+                {
+                    canMove = true;
+                }
+            }
+            else if (burried && canMove)
+            {
+                DigToOpening();
+            }
+            else if (!burried && canMove)
+            {
+                Move();
             }
         }
-        else if (burried && canMove)
-        {
-            DigToOpening();
+        else {
+            if (t < stuckTime)
+            {
+                t += Time.deltaTime / stuckTime;
+            }
+            else {
+                isStuck = false;
+                canStick = false;
+                t = 0;
+            }
         }
-        else if (!burried && canMove)
-        {
-            Move();
+        if (!canStick) {
+            if (it < stickInvTime)
+            {
+                it += Time.deltaTime / stickInvTime;
+            }
+            else {
+                canStick = true;
+                it = 0;
+            }
         }
         
 	}
@@ -372,5 +409,10 @@ public class AntController : MonoBehaviour {
         startPos = transform.position;
         dirOfOpening = dir;
         endPos = startPos + (dir * (tileSize+0.01f));
+    }
+    public void Stuck() {
+        if (canStick) {
+            isStuck = true;
+        }
     }
 }
