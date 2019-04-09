@@ -46795,8 +46795,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audio: {fileID: 1961826983}
-  ac1: {fileID: 0}
-  ac2: {fileID: 0}
+  ac1: {fileID: 8300000, guid: 7d8c870f084196a439321aaa97279f08, type: 3}
+  ac2: {fileID: 8300000, guid: 8ff625624d1bf0040a54fb67edf18197, type: 3}
 --- !u!124 &1961826980
 Behaviour:
   m_ObjectHideFlags: 0
