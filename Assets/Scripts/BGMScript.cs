@@ -5,7 +5,7 @@ using UnityEngine;
 public class BGMScript : MonoBehaviour {
 
     [SerializeField]
-    AudioSource audio;
+    AudioSource audioS;
     [SerializeField]
     AudioClip ac1;
     [SerializeField]
@@ -13,16 +13,16 @@ public class BGMScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        audio = GetComponent<AudioSource>();
-        audio.clip = ac1;
+        audioS = GetComponent<AudioSource>();
+        audioS.clip = ac1;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (!audio.isPlaying) {
-            audio.clip = ac2;
-            audio.loop = true;
-            audio.Play();
+        if (!audioS.isPlaying) {
+            audioS.clip = ac2;
+            audioS.loop = true;
+            audioS.Play();
         }
 	}
 }
