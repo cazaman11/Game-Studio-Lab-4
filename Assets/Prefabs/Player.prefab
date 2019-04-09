@@ -81,7 +81,7 @@ MonoBehaviour:
   rb: {fileID: 54806891102683522}
   groundSpeed: 8
   airSpeed: 2
-  jumpForce: 3
+  jumpForce: 3.5
   canJump: 1
   health: 3
   canMove: 1
@@ -99,6 +99,7 @@ MonoBehaviour:
   quicksand: {fileID: 1411870291024852, guid: 36e619e57aeb30c42a58427ede14efa5, type: 2}
   rock: {fileID: 1779447917201458, guid: 07807a347a8a84c4298e248e414717e3, type: 2}
   background: {fileID: 1527308587965044, guid: c414950e5209c37438c4ef4c47557e00, type: 2}
+  tileSize: 0.32
 --- !u!136 &136857384986570046
 CapsuleCollider:
   m_ObjectHideFlags: 1
