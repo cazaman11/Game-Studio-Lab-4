@@ -133,6 +133,7 @@ public class PlayerMovement : MonoBehaviour {
     void Die() {
         Time.timeScale = 0;
         canMove = false;
+        GameObject.Find("manager").GetComponent<SceneManagerScript>().restartGame();
     }
 
     public void Restart()
