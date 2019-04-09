@@ -160,4 +160,9 @@ public class PlayerMovement : MonoBehaviour {
             isStuck = true;
         }
     }
+
+    public int getHealth()
+    {
+        return health;
+    }
 }

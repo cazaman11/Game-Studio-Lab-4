@@ -12,9 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenuScene.unity
     guid: 5340711fbf2e0fa469012b699dbb0c75
   - enabled: 1
-    path: Assets/Scenes/GameScene.unity
-    guid: 35432076d3f9ca54e889f6e855e37c2f
-  - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Scenes/Alex's Scene.unity
+    guid: e2f1f125794bd794590c718f58946144
   m_configObjects: {}

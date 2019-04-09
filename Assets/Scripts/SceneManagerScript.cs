@@ -10,14 +10,14 @@ public class SceneManagerScript : MonoBehaviour {
     public bool seenBefore = false;
 	// Use this for initialization
 	void Start () {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("MainMenuScene");
         //Mainmenu
     }
 	
 	// Update is called once per frame
 	void Update () {
         currentScene = SceneManager.GetActiveScene();
-		if(currentScene.name == "GameScene")
+		if(currentScene.name == "Alex's Scene")
         {
             if(Input.GetKeyDown(KeyCode.R) )
             {
@@ -27,19 +27,20 @@ public class SceneManagerScript : MonoBehaviour {
 
         if(Input.GetKeyDown(KeyCode.L))
         {
-            SceneManager.LoadScene("GameScene");
+            SceneManager.LoadScene("Alex's Scene");
         }
 
+        /*
         if(Input.GetKeyDown(KeyCode.T))
         {
             toSampleScene();
         }
-
+        */
     }
 
     public void restartGame()
     {
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("Alex's Scene");
         Debug.Log("Scene reset");
     }
 

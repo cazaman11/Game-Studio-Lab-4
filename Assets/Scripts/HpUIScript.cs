@@ -9,7 +9,7 @@ public class HpUIScript : MonoBehaviour {
     GameObject secondHeart;
     GameObject firstHeart;
     [SerializeField]
-    int health = 3;
+    int health;
     // Use this for initialization
     void Start () {
         thirdHeart = GameObject.Find("3Heart");
@@ -20,30 +20,32 @@ public class HpUIScript : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+        health = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().getHealth();
         //get hp from player script
-        if (health == 2 || Input.GetKeyDown(KeyCode.A))
+        if (health == 2)
         {
             thirdHeart.SetActive(false);
             secondHeart.SetActive(true);
             firstHeart.SetActive(true);
         }
-        if(health == 1 || Input.GetKeyDown(KeyCode.S))
+        if(health == 1)
         {
             thirdHeart.SetActive(false);
             secondHeart.SetActive(false);
             firstHeart.SetActive(true);
         }
-        if(health == 0 || Input.GetKeyDown(KeyCode.D))
+        if(health == 0)
         {
             thirdHeart.SetActive(false);
             secondHeart.SetActive(false);
             firstHeart.SetActive(false);
         }
+        /*
         if( Input.GetKeyDown(KeyCode.F))
         {
             fullHp();
         }
-
+        */
     }
 
     void fullHp()
