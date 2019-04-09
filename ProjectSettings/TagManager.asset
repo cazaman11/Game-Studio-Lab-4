@@ -9,6 +9,7 @@ TagManager:
   - Rock
   - Ant
   - Background
+  - Diamond
   layers:
   - Default
   - TransparentFX
