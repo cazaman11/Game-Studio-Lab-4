@@ -11,6 +11,8 @@ public class QuicksandScript : MonoBehaviour {
     Rigidbody rb;
     [SerializeField]
     GameObject quicksand;
+    [SerializeField]
+    GameObject background;
 
 
     // Use this for initialization
@@ -54,6 +56,7 @@ public class QuicksandScript : MonoBehaviour {
                 Vector3 pos = collision.transform.position;
                 Destroy(collision.gameObject);
                 Instantiate(quicksand, pos, Quaternion.identity);
+                Instantiate(background, pos, Quaternion.identity);
                 Destroy(gameObject);
             }
         }
