@@ -14,6 +14,8 @@ public class TransmogScript : MonoBehaviour
     GameObject background;
     [SerializeField]
     float tileSize = 0.32f;
+    [SerializeField]
+    ImageSwitchScript iss;
 
     enum GunState { Quicksand, Rock };
     GunState currState = GunState.Rock;
@@ -22,6 +24,7 @@ public class TransmogScript : MonoBehaviour
     void Start()
     {
         currState = GunState.Rock;
+        iss.SwitchImage("rock");
     }
 
     // Update is called once per frame
@@ -29,8 +32,16 @@ public class TransmogScript : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (currState == GunState.Rock) currState = GunState.Quicksand;
-            else currState = GunState.Rock;
+            if (currState == GunState.Rock)
+            {
+                currState = GunState.Quicksand;
+                iss.SwitchImage("quicksand");
+            }
+            else
+            {
+                currState = GunState.Rock;
+                iss.SwitchImage("rock");
+            }
         }
         if (Input.GetMouseButtonDown(1))
         {
